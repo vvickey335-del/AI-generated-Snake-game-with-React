@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Silkscreen&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-mono: "VT323", monospace;
+  --font-display: "Silkscreen", monospace;
+}
+
+body {
+  background-color: #000;
+  color: #0ff;
+  font-family: "VT323", monospace;
+  text-transform: uppercase;
+  overflow-x: hidden;
+}
+
+.scanlines {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.4));
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.noise {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  pointer-events: none;
+  z-index: 40;
+  opacity: 0.15;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.glitch-text {
+  position: relative;
+  color: #fff;
+  animation: glitch-anim 2s infinite linear alternate-reverse;
+}
+.glitch-text::before, .glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+}
+.glitch-text::before {
+  left: 2px;
+  text-shadow: -2px 0 #f0f;
+  clip: rect(24px, 550px, 90px, 0);
+  animation: glitch-anim-2 3s infinite linear alternate-reverse;
+}
+.glitch-text::after {
+  left: -2px;
+  text-shadow: -2px 0 #0ff;
+  clip: rect(85px, 550px, 140px, 0);
+  animation: glitch-anim 2.5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+  0% { clip: rect(10px, 9999px, 44px, 0); }
+  20% { clip: rect(80px, 9999px, 12px, 0); }
+  40% { clip: rect(33px, 9999px, 88px, 0); }
+  60% { clip: rect(90px, 9999px, 14px, 0); }
+  80% { clip: rect(22px, 9999px, 66px, 0); }
+  100% { clip: rect(55px, 9999px, 33px, 0); }
+}
+@keyframes glitch-anim-2 {
+  0% { clip: rect(65px, 9999px, 100px, 0); }
+  20% { clip: rect(12px, 9999px, 80px, 0); }
+  40% { clip: rect(88px, 9999px, 33px, 0); }
+  60% { clip: rect(14px, 9999px, 90px, 0); }
+  80% { clip: rect(66px, 9999px, 22px, 0); }
+  100% { clip: rect(33px, 9999px, 55px, 0); }
+}
+
+.tear {
+  animation: tear-anim 4s infinite;
+}
+@keyframes tear-anim {
+  0%, 95% { transform: translate(0, 0) skew(0); }
+  96% { transform: translate(-5px, 2px) skew(-10deg); filter: hue-rotate(90deg); }
+  97% { transform: translate(5px, -2px) skew(10deg); filter: hue-rotate(-90deg); }
+  98% { transform: translate(0, 0) skew(0); filter: hue-rotate(0); }
+}
